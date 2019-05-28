@@ -1,0 +1,8 @@
+# Node modules for AWS Lambda implementation:
+cat-detector/node_modules/
+
+# VirtualEnv for Python 2.7:
+venv/
+
+.DS_Store
+.idea/

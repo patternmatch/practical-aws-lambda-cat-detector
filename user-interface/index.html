@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Serverless Cat Detector &copy; Pattern Match 2019</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="main">
+      <h1>Serverless Cat Detector</h1>
+
+      <div id="error-box" class="error-box hidden">
+        <strong>Error!</strong> <span id="error-content"></span>
+      </div>
+
+      <header class="operations">
+        <div class="left">
+          <input type="button" id="searchButton" class="buttons" value="Fetch Results" />
+        </div>
+
+        <div class="right">
+          <input type="file" name="image" id="image" class="uploader" />
+          <label for="image"><strong>Choose a file</strong></label>
+
+          <input type="submit" id="detect" class="buttons" value="Submit" />
+        </div>
+
+        <div class="clear"></div>
+      </header>
+
+      <table class="results">
+        <colgroup>
+          <col style="width: 10%">
+          <col style="width: 7%">
+          <col style="width: 45%">
+          <col style="width: 8%">
+          <col style="width: 30%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <th>File</th>
+            <th>Image</th>
+            <th>Status</th>
+            <th>Result</th>
+          </tr>
+        </tbody>
+      </table>
+      <footer>
+         <strong>Copyright &copy; Pattern Match 2019</strong>
+      </footer>
+    </main>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+</html>

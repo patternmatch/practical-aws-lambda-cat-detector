@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FAFAFA;
+  font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 62.5%;
+}
+
+.hidden {
+  display: none;
+}
+
+.error-box {
+  font-size: 1.5em;
+  width: 100%;
+  color: #a94442;
+  padding: 10px 20px;
+  background-color: #f2dede;
+  border-radius: 4px;
+  border: 1px solid #ebccd1;
+}
+
+input,
+label {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+}
+
+input.uploader {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+input.uploader + label {
+  display: inline-block;
+  border: 0;
+  color: white;
+  background-color: #3d75ba;
+  padding: 10px 25px;
+  cursor: pointer;
+  height: 45px;
+  font-size: 2em;
+  font-weight: bold;
+  font-variant: small-caps;
+  position: relative;
+  top: -1px;
+}
+
+.input.uploader + label * {
+  pointer-events: none;
+}
+
+.input.uploader:focus + label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.input.uploader:focus + label,
+input.uploader + label:hover {
+  background-color: #79b2e8;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.main {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+
+.operations {
+  margin: 25px 0;
+}
+
+h1 {
+  font-size: 3.5em;
+  text-align: center;
+}
+
+.buttons {
+  border: 0;
+  color: white;
+  background-color: #3d75ba;
+  padding: 10px 25px;
+  cursor: pointer;
+  height: 45px;
+  font-size: 2em;
+  font-weight: bold;
+  font-variant: small-caps;
+}
+
+.buttons:hover {
+  background-color: #79b2e8;
+}
+
+.results {
+  font-weight: normal;
+  color: white;
+  font-size: 2em;
+  text-align: left;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.results th {
+  padding: 8px;
+  color: white;
+  background-color: #79b2e8;
+  border: 1px solid #3d75ba;
+}
+
+.results td {
+  padding: 8px;
+  color: #3d75ba;
+  background-color: white;
+  border: 1px solid #3d75ba;
+}
+
+.main footer {
+  margin-top: 50px;
+  text-align: center;
+  color: #888888;
+}

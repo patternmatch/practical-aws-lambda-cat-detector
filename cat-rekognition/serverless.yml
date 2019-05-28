@@ -1,0 +1,96 @@
+service: serverless-cat-detector
+
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs8.10
+  tracing: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - rekognition:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - xray:*
+      Resource: "*"
+
+functions:
+  uploadcatpicture:
+    handler: src/upload.saveToS3
+    events:
+      - http:
+          path: upload
+          method: post
+          cors: true
+  getresults:
+    handler: src/results.getClassification
+    events:
+     - http:
+         path: results
+         method: get
+  catrekognition:
+    handler: src/classification.imgClassification
+
+resources:
+  Resources:
+    S3BucketServerlessDashCatDashDetectorDashImgDashRepo:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: ${self:custom.catDetectorConfig.serverless_cat_detector_img_repo}
+        NotificationConfiguration:
+          LambdaConfigurations:
+            - Event:  "s3:ObjectCreated:*"
+              Function:
+                "Fn::GetAtt": [CatrekognitionLambdaFunction, Arn]
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: ["*"]
+              AllowedMethods: ["GET", "PUT"]
+              AllowedOrigins: ["*"]
+    CatrekognitionLambdaPermissionS3BucketMyBucketDevS3:
+      DependsOn:
+        - CatrekognitionLambdaFunction
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName:
+          "Fn::GetAtt": [ CatrekognitionLambdaFunction, Arn ]
+        Action: "lambda:InvokeFunction"
+        Principal: "s3.amazonaws.com"
+        SourceArn: "arn:aws:s3:::${self:custom.catDetectorConfig.serverless_cat_detector_img_repo}"
+    CatStatusDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: 'name'
+            AttributeType: S
+        KeySchema:
+          - AttributeName: 'name'
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: "${self:custom.catDetectorConfig.serverless_cat_detector_results_table}"
+
+plugins:
+  - serverless-s3-remover
+  - serverless-plugin-tracing
+
+custom:
+  catDetectorConfig: ${file(src/config.js)}
+  remover:
+    buckets:
+      - ${self:custom.catDetectorConfig.serverless_cat_detector_img_repo}

@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.0",
+      "eventSource": "aws:s3",
+      "awsRegion": "eu-west-1",
+      "eventTime": "2017-11-07T14:48:17.640Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AWS:AIDAIO4UECELEIKQL727W"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "64.236.4.1"
+      },
+      "responseElements": {
+        "x-amz-request-id": "E9539EA0992FE185",
+        "x-amz-id-2": "i9fnN8mAGRF/AR4TSV4hcCSWn0b3tag2Gy//j3PyYhtxzMgIwEVOJoSBo9SW7mpwX7cRc24eq1M="
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "4e51601f-b26b-4b2f-9389-f39da91a1890",
+        "bucket": {
+          "name": "cat-detector-img-repo",
+          "ownerIdentity": {
+            "principalId": "A3W0C5E4PDB3VB"
+          },
+          "arn": "arn:aws:s3:::cat-detector-img-repo"
+        },
+        "object": {
+          "key": "cat1.jpeg",
+          "size": 12920,
+          "eTag": "4a421caed9813b5b620f9e777a43caa8",
+          "sequencer": "005A01C7B17DA1680E"
+        }
+      }
+    }
+  ]
+}
