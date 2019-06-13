@@ -10,20 +10,29 @@ module.exports.imgClassification = (event, context, callback) => {
     const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));
 
     filesToBeChecked.forEach(function (fileName) {
-        persistence.putStatus(fileName, false, 'new');
+        let statusNew = persistence.putStatus(fileName, false, 'new');
 
-        recognition.check(fileName)
-            .then((recognitionStatus) => {
-                console.log('Image label: ', recognitionStatus);
-                persistence.putStatus(fileName, true, recognitionStatus);
-            })
-            .catch((error) => {
-                console.log(error);
-                persistence.putStatus(fileName, true, 'error');
-            });
+        statusNew.then(function () {
+            recognition.check(fileName)
+                .then((recognitionStatus) => {
+                    console.log('Image label: ', recognitionStatus);
+                    persistence.putStatus(fileName, true, recognitionStatus).then(function () {
+                        console.log("Recognition success. Status updated.");
+                        callback(null, event);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    persistence.putStatus(fileName, true, 'error').then(function () {
+                        console.log("Recognition error. Status updated.");
+                        callback(null, event);
+                    });
+                });
+        }).catch(function (err) {
+            console.log(err);
+            callback(null, event);
+        });
     });
-
-    callback(null, event);
 };
 
 module.exports.filterEvents = (s3Events) => {
