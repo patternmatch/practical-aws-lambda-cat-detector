@@ -3,37 +3,25 @@
 const persistence = require('./persistence');
 const recognition = require('./recognition');
 
-module.exports.imgClassification = (event, context, callback) => {
+module.exports.imgClassification = async (event, context) => {
 
     console.log('Received event: %j', event);
 
     const filesToBeChecked = module.exports.recordsToFiles(module.exports.filterEvents(event));
-
-    filesToBeChecked.forEach(function (fileName) {
-        let statusNew = persistence.putStatus(fileName, false, 'new');
-
-        statusNew.then(function () {
-            recognition.check(fileName)
-                .then((recognitionStatus) => {
-                    console.log('Image label: ', recognitionStatus);
-                    persistence.putStatus(fileName, true, recognitionStatus).then(function () {
-                        console.log("Recognition success. Status updated.");
-                        callback(null, event);
-                    });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    persistence.putStatus(fileName, true, 'error').then(function () {
-                        console.log("Recognition error. Status updated.");
-                        callback(null, event);
-                    });
-                });
-        }).catch(function (err) {
-            console.log(err);
-            callback(null, event);
-        });
-    });
-};
+    for (var i = 0; i< filesToBeChecked.length; ++i){
+        let fileName = filesToBeChecked[i]
+        await persistence.putStatus(fileName, false, 'new')
+        try {
+            let recognitionStatus = await recognition.check(fileName)
+            await persistence.putStatus(fileName, true, recognitionStatus)
+            console.log("Recognition success. Status updated.")
+        } catch (error) {
+            console.log(error);
+            await persistence.putStatus(fileName, true, 'error')
+            console.log("Recognition error. Status updated.")
+        }
+    }
+}
 
 module.exports.filterEvents = (s3Events) => {
     const records = s3Events['Records'];

@@ -18,7 +18,6 @@ module.exports.dbItem = (fileName, scanned, scanningStatus) => {
 
 module.exports.putStatus = (fileName, scanned, scanningStatus) => {
     const statusItem = module.exports.dbItem(fileName, scanned, scanningStatus);
-
     return dynamoDb.put(statusItem).promise();
 };
 
