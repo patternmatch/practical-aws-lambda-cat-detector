@@ -5,7 +5,7 @@ const AWSXRay = require('aws-xray-sdk');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const rekognition = new AWS.Rekognition();
 
-module.exports.check = (fileName) => {
+module.exports.check = async (fileName) => {
     const params = {
         Image: {
             S3Object: {
@@ -16,18 +16,7 @@ module.exports.check = (fileName) => {
         MaxLabels: 10,
         MinConfidence: 60
     };
-
-    return new Promise((resolve, reject) => {
-        rekognition.detectLabels(params, function (err, data) {
-            if (err) {
-                return reject(new Error(err));
-            }
-            else {
-                console.log(data);
-                return resolve(module.exports.imageLabel(data));
-            }
-        });
-    });
+    return module.exports.imageLabel(await rekognition.detectLabels(params).promise())
 };
 
 module.exports.imageLabel = (data) => {

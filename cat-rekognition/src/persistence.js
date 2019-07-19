@@ -21,20 +21,10 @@ module.exports.putStatus = (fileName, scanned, scanningStatus) => {
     return dynamoDb.put(statusItem).promise();
 };
 
-module.exports.getStatusOfAll = () => {
+module.exports.getStatusOfAll = async () => {
     const params = {
         TableName: config().serverless_cat_detector_results_table,
         AttributesToGet: ["name", "checked", "status"]
     };
-
-    return new Promise((resolve, reject) => {
-        dynamoDb.scan(params, function (err, data) {
-            if (err) {
-                return reject(new Error(err));
-            } else {
-                console.log(data);
-                return resolve(data.Items);
-            }
-        });
-    });
+    return  (await dynamoDb.scan(params).promise()).Items;
 }
