@@ -7,68 +7,60 @@ const s3 = new AWS.S3();
 
 const CORS_HEADERS = { 'Access-Control-Allow-Origin': '*' };
 
-module.exports.saveToS3 = (event, context, callback) => {
+module.exports.saveToS3 = async (event, _context) => {
   console.log(event);
 
-  var validInput = (params) => {
+  var validation_result = module.exports.validateInput(event)
+  if (validation_result.valid) {
     const s3Params = {
       Bucket: config().serverless_cat_detector_img_repo,
-      Key: params.name,
-      ContentType: params.type,
+      Key: validation_result.params.name,
+      ContentType: validation_result.params.type,
       ACL: 'public-read'
     };
 
     const uploadURL = s3.getSignedUrl('putObject', s3Params);
 
-    callback(null, {
+    return {
       statusCode: 200,
       headers: CORS_HEADERS,
       body: JSON.stringify({ uploadURL: uploadURL })
-    });
-  }
-
-  var invalidInput = (errorMsg) => {
-    callback(null, {
+    }
+  } else {
+    return {
       statusCode: 400,
       headers: CORS_HEADERS,
-      body: JSON.stringify({reason: errorMsg})
-    })
+      body: JSON.stringify({reason: validation_result.reason})
+    }
   }
-
-  module.exports.validateInput(event, validInput, invalidInput); 
 };
 
-module.exports.validateInput = (event, onSuccessCb, onErrorCb) => {
+module.exports.validateInput = (event) => {
   var params = {};
 
   if (typeof event.headers['content-type'] === 'undefined' || !event.headers['content-type']) {
-    onErrorCb("content-type is missing");
-    return;
+    return { valid: false, reason: "content-type is missing" }
   }
 
   if (!event.headers['content-type'].startsWith("application/json")) {
-    onErrorCb("content type is not application/json");
-    return;
+    return { valid: false, reason: "content type is not application/json" }
   }
 
   try {
     params = JSON.parse(event.body);
   } catch (e) {
-    onErrorCb(e);
-    return;
+    return { valid: false, reason: e }
   }
 
   if (typeof params.type === 'undefined' || typeof params.name === 'undefined') {
-    onErrorCb("lack of name or type param in json body");
-    return;
+    return { valid: false, reason: "lack of name or type param in json body" }
   }
 
   const allowedContentTypes = ["image/png", "image/gif", "image/jpeg"];
   if (!allowedContentTypes.includes(params.type)) {
-    onErrorCb("invalid content type");
-    return;
+    return { valid: false, reason: "invalid content type" }
   }
 
-  onSuccessCb(params);
+  return { valid: true, params: params }
 };
 

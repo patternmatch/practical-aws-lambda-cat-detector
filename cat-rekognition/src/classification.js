@@ -3,7 +3,7 @@
 const persistence = require('./persistence');
 const recognition = require('./recognition');
 
-module.exports.imgClassification = async (event, context) => {
+module.exports.imgClassification = async (event, _context) => {
 
     console.log('Received event: %j', event);
 

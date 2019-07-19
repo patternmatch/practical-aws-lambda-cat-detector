@@ -8,7 +8,7 @@ const AWSXRay = require('aws-xray-sdk');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const s3 = new AWS.S3();
 
-module.exports.getClassification = async (event, context) => {
+module.exports.getClassification = async (event, _context) => {
   console.log(event);
   try {
     var Items = (await persistence.getStatusOfAll())

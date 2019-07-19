@@ -13,52 +13,32 @@ describe('Test upload', function () {
             headers: {'content-type': expectedContentType},
             body: '{"name":"cat3.jpg","type":"image/jpeg"}'
         };
-        const successCb = sinon.spy(); 
-        const errorCb = sinon.spy(); 
-        
-        lambda.validateInput(validEvent, successCb, errorCb);
 
-        expect(successCb.calledOnce).to.be.true;
-        expect(errorCb.notCalled).to.be.true;
+        expect(lambda.validateInput(validEvent).valid).to.be.true;
     });
     it('reject invalid content type', function () {
         const event = {
             headers: {'content-type': "image/png"},
             body: '{"name":"cat3.jpg","type":"image/jpeg"}',
         };
-        const successCb = sinon.spy(); 
-        const errorCb = sinon.spy(); 
         
-        lambda.validateInput(event, successCb, errorCb);
-        
-        expect(errorCb.calledOnce).to.be.true;
-        expect(successCb.notCalled).to.be.true;
+        expect(lambda.validateInput(event).valid).to.be.false;
     });
     it('reject request without type param', function () {
         const event = {
             headers: {'content-type': "application/json"},
             body: '{"name": "hellokitty.jpg"}'
         };
-        const successCb = sinon.spy(); 
-        const errorCb = sinon.spy(); 
-        
-        lambda.validateInput(event, successCb, errorCb);
-        
-        expect(errorCb.calledOnce).to.be.true;
-        expect(successCb.notCalled).to.be.true;
+
+        expect(lambda.validateInput(event).valid).to.be.false;
     });
     it('rejects request without name param', function () {
         const event = {
             headers: {'content-type': "application/json"},
             body: '{"type": "hellokitty.jpg"}'
         };
-        const successCb = sinon.spy(); 
-        const errorCb = sinon.spy(); 
         
-        lambda.validateInput(event, successCb, errorCb);
-        
-        expect(errorCb.calledOnce).to.be.true;
-        expect(successCb.notCalled).to.be.true;
+        expect(lambda.validateInput(event).valid).to.be.false;
     });
     it('accepts image file types', function () {
         const AllowedTypes = [
@@ -72,13 +52,8 @@ describe('Test upload', function () {
                 headers: {'content-type': "application/json"},
                 body: '{"type": "'+ item +'", "name": "bobcat"}'
             };
-            const successCb = sinon.spy(); 
-            const errorCb = sinon.spy(); 
-            
-            lambda.validateInput(event, successCb, errorCb);
-            
-            expect(successCb.calledOnce).to.be.true;
-            expect(errorCb.notCalled).to.be.true;
+
+            expect(lambda.validateInput(event).valid).to.be.true;
         });
     });
     it('rejects non-image file types', function () {
@@ -92,13 +67,7 @@ describe('Test upload', function () {
                 headers: {'content-type': "application/json"},
                 body: '{"type": "'+ item +'", "name": "bobcat"}'
             };
-            const successCb = sinon.spy(); 
-            const errorCb = sinon.spy(); 
-
-            lambda.validateInput(event, successCb, errorCb);
-            
-            expect(errorCb.calledOnce).to.be.true;
-            expect(successCb.notCalled).to.be.true;
+            expect(lambda.validateInput(event).valid).to.be.false;
         });
     });
 });
