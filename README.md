@@ -11,7 +11,7 @@ Repository is a foundation for an interactive workshops. To get more info about 
 We have performed it on following conferences:
 
 - [Cloudyna 2017](https://cloudyna.net) (*Katowice*, *Poland*).
-- [Natywna Chmura 2019](https://natywnachmura.pl/serverless-w-praktyce/) (*Kraków", "Poland").
+- [Natywna Chmura 2019](https://natywnachmura.pl/serverless-w-praktyce/) (*Kraków*, "Poland").
 
 During that we covered following topics:
 

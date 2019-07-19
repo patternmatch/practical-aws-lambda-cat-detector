@@ -4,15 +4,15 @@
   "description": "Detecting cat in a picture",
   "main": "src/handler.js",
   "dependencies": {
-    "aws-xray-sdk": "1.1.6",
-    "serverless": "1.43.0"
+    "aws-xray-sdk": "2.3.3",
+    "serverless": "1.48.1"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "mocha": "3.2.0",
+    "chai": "4.2.0",
+    "mocha": "6.2.0",
     "serverless-plugin-tracing": "2.0.0",
     "serverless-s3-remover": "0.6.0",
-    "sinon": "4.1.2"
+    "sinon": "7.3.2"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"
