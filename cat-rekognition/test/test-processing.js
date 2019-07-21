@@ -1,6 +1,5 @@
 var chai = require('chai'),
-    expect = chai.expect,
-    should = chai.should();
+    expect = chai.expect;
 
 const lambda = require("../src/classification.js");
 const persistence = require("../src/persistence");

@@ -11,8 +11,7 @@
     "chai": "4.2.0",
     "mocha": "6.2.0",
     "serverless-plugin-tracing": "2.0.0",
-    "serverless-s3-remover": "0.6.0",
-    "sinon": "7.3.2"
+    "serverless-s3-remover": "0.6.0"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"

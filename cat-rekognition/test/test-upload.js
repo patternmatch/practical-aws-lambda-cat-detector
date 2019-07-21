@@ -1,10 +1,7 @@
 var chai = require('chai'),
-    expect = chai.expect,
-    should = chai.should();
-var sinon = require('sinon');
+    expect = chai.expect;
 
 const lambda = require("../src/upload.js");
-const CORS_HEADERS = { 'Access-Control-Allow-Origin': '*' };
 
 describe('Test upload', function () {
     it('accepts valid http event', function () {
