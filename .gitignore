@@ -4,5 +4,15 @@ cat-detector/node_modules/
 # VirtualEnv for Python 2.7:
 venv/
 
+# macOS:
 .DS_Store
 .idea/
+
+# Archives:
+*.zip
+
+# Images:
+*.png
+*.jpeg
+*.jpg
+*.gif

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = () => {
-    var img_repo = process.env.BUCKET || 'serverless-cat-detector-img-repo';
+    var img_repo = process.env.BUCKET || 'serverless-cat-detector-img-repo-XYZ';
     var results_table = process.env.TABLE || 'ServerlessCatDetectorStatus';
 
     return {

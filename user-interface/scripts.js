@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  const API_UPLOAD_ENDPOINT = "https://gf1rfxff5d.execute-api.eu-west-1.amazonaws.com/dev/upload"
-  const API_RESULTS_ENDPOINT = "https://gf1rfxff5d.execute-api.eu-west-1.amazonaws.com/dev/results"
+  const API_UPLOAD_ENDPOINT = "<API_FOR_UPLOAD>";
+  const API_RESULTS_ENDPOINT = "<API_FOR_GET_RESULTS>";
 
   var ErrorTimeoutId = 0;
 
